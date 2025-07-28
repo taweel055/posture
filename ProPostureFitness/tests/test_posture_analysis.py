@@ -31,11 +31,11 @@ class TestPostureAnalysis(unittest.TestCase):
     @patch('cv2.CascadeClassifier')
     def test_face_detection_initialization(self, mock_cascade):
         """Test face detection initialization"""
-        # Import the app module
-        from final_working_app import FinalPostureApp
+        # Import the unified system
+        from unified_posture_system import PostureAnalysisSystem, AnalysisMode
         
         # Create app instance
-        app = FinalPostureApp()
+        app = PostureAnalysisSystem(mode=AnalysisMode.BASIC)
         
         # Check that cascade classifier was called
         mock_cascade.assert_called()

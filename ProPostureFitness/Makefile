@@ -41,15 +41,15 @@ test-coverage:
 
 # Run the application
 run:
-	./ProPostureFitness.sh
+	python FitlifePostureProApp.py
 
 # Run with Python directly
 run-python:
-	python final_working_app.py
+	python FitlifePostureProApp.py
 
-# Verify binary
+# Verify application
 verify:
-	python verify_binary.py
+	python test_fitlife_app.py
 
 # Clean temporary files
 clean:
