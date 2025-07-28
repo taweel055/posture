@@ -23,22 +23,9 @@ __all__ = [
     'MODELS_DIR',
     'REPORTS_DIR',
     'PostureAnalysisSystem',
-    'AnalysisMode',
-    'FinalPostureApp',
-    'PostureAnalyzer'
+    'AnalysisMode'
 ]
 
-# Main application class
-try:
-    from .final_working_app import FinalPostureApp
-except ImportError:
-    FinalPostureApp = None
-
-# Additional components
-try:
-    from .basic_posture_app import PostureAnalyzer
-except ImportError:
-    PostureAnalyzer = None
 
 def get_version():
     """Return the current version"""

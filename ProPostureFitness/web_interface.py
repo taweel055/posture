@@ -15,12 +15,13 @@ from flask import Flask, render_template_string, Response, jsonify, request
 from datetime import datetime
 import numpy as np
 
-# Try to import the main app
+# Try to import the unified system
 try:
-    from final_working_app import FinalPostureApp
+    from unified_posture_system import PostureAnalysisSystem, AnalysisMode
+    UNIFIED_SYSTEM_AVAILABLE = True
 except ImportError:
-    print("Warning: Could not import FinalPostureApp")
-    FinalPostureApp = None
+    print("Warning: Could not import unified posture system")
+    UNIFIED_SYSTEM_AVAILABLE = False
 
 app = Flask(__name__)
 
@@ -392,8 +393,8 @@ def init_posture_app():
     """Initialize posture analysis app"""
     global posture_app
     try:
-        if FinalPostureApp:
-            posture_app = FinalPostureApp()
+        if UNIFIED_SYSTEM_AVAILABLE:
+            posture_app = PostureAnalysisSystem(mode=AnalysisMode.ADVANCED)
             print("✅ Posture app initialized")
     except Exception as e:
         print(f"❌ Posture app initialization failed: {e}")
