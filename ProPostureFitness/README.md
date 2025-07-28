@@ -1,15 +1,15 @@
-# ProPostureFitness v5.0
+# FitlifePostureProApp v1.0
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-5.0.0-blue.svg" alt="Version">
+  <img src="https://img.shields.io/badge/version-1.0.0-blue.svg" alt="Version">
   <img src="https://img.shields.io/badge/python-3.8+-green.svg" alt="Python">
   <img src="https://img.shields.io/badge/platform-macOS%20%7C%20Linux%20%7C%20Windows-lightgrey.svg" alt="Platform">
   <img src="https://img.shields.io/badge/license-MIT-yellow.svg" alt="License">
 </p>
 
-## 🎯 Overview
+## 🏃‍♂️ Overview
 
-ProPostureFitness is a professional-grade posture analysis and fitness assessment system that uses advanced computer vision and AI to provide real-time posture monitoring and detailed health reports. Designed for healthcare professionals, fitness trainers, and individuals seeking to improve their posture and overall well-being.
+FitlifePostureProApp is a professional-grade posture analysis and fitness assessment system that uses advanced computer vision and AI to provide real-time posture monitoring and detailed health reports. Designed for healthcare professionals, fitness trainers, and individuals seeking to improve their posture and overall well-being.
 
 ## ✨ Key Features
 
@@ -71,33 +71,33 @@ python install.py
 
 **Quick Start:**
 ```bash
-./ProPostureFitness.sh  # macOS/Linux
-# or
-python final_working_app.py  # All platforms
+# Run FitlifePostureProApp
+python FitlifePostureProApp.py
+
+# Or with specific mode
+python FitlifePostureProApp.py --mode basic
+python FitlifePostureProApp.py --mode advanced
+python FitlifePostureProApp.py --mode gpu
 ```
 
-**Different Modes:**
+**Legacy Applications (still available):**
 ```bash
 # Basic posture analysis
 python basic_posture_app.py
 
+# Advanced analysis
+python working_posture_app.py
+
 # GPU-accelerated version
 python gpu_accelerated_posture_system.py
-
-# Integrated detailed assessment
-python integrated_detailed_assessment.py
 ```
 
 ## 🎮 Usage Guide
 
-### Camera Mode Controls
-- **`a`** - Start/stop automated assessment
-- **`d`** - Generate detailed assessment report
-- **`v`** - View last detailed report
-- **`g`** - Toggle grid overlay
-- **`f`** - Set per-frame assessment (30 FPS)
-- **`o`** - Toggle orientation (Portrait/Landscape)
-- **`+/-`** - Adjust automation frequency
+### FitlifePostureProApp Controls
+- **`SPACE`** - Take screenshot
+- **`s`** - Save current analysis
+- **`r`** - Reset session
 - **`h`** - Show help
 - **`q`** - Quit application
 
@@ -180,15 +180,14 @@ python -m pytest tests/test_camera_connection.py
 
 ```
 ProPostureFitness/
-├── bin/                    # Compiled binaries
 ├── config/                 # Configuration files
 │   └── settings.json
 ├── data/                   # Sample data and outputs
 ├── logs/                   # Application logs
-├── models/                 # AI models (if any)
 ├── reports/                # Generated reports
 ├── tests/                  # Unit tests
-├── final_working_app.py    # Main application
+├── FitlifePostureProApp.py # Main application
+├── unified_posture_system.py # Core system
 ├── config_module.py        # Configuration management
 ├── requirements.txt        # Python dependencies
 └── README.md              # This file
@@ -223,12 +222,12 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🔄 Version History
 
-- **v5.0.0** (Current) - GPU acceleration, clinical-grade accuracy
-- **v4.0.0** - Added detailed reporting system
-- **v3.0.0** - Cross-platform support
-- **v2.0.0** - Real-time analysis
-- **v1.0.0** - Initial release
+- **v1.0.0** (Current) - FitlifePostureProApp with unified analysis system
+  - Professional-grade posture analysis
+  - Multiple analysis modes (Basic, Advanced, GPU-accelerated)
+  - Streamlined interface and controls
+  - Enhanced performance and accuracy
 
 ---
 
-<p align="center">Made with ❤️ for better posture and health</p>
+<p align="center">Made with 🏃‍♂️ for better posture and fitness</p>
