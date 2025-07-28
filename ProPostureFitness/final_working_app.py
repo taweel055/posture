@@ -183,6 +183,10 @@ class FinalPostureApp:
         
         try:
             while self.running:
+                if self.camera is None:
+                    print("❌ Camera not initialized")
+                    break
+                    
                 ret, frame = self.camera.read()
                 
                 if not ret:
