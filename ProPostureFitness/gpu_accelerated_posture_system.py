@@ -610,22 +610,17 @@ class GPUAcceleratedPostureSystem:
 
 
 def main():
-    """Main function to run GPU-accelerated posture analysis"""
-    
+    """Main function - now uses unified system"""
     try:
-        # Initialize GPU-accelerated system
-        gpu_system = GPUAcceleratedPostureSystem()
-        
-        # Run real-time analysis
-        gpu_system.run_realtime_analysis()
-        
-    except KeyboardInterrupt:
-        print("\n🛑 Analysis stopped by user")
-    except Exception as e:
-        print(f"❌ Error: {e}")
-        import traceback
-        traceback.print_exc()
-
+        from unified_posture_system import PostureAnalysisSystem, AnalysisMode
+        print("🔄 Using unified posture analysis system (GPU Mode)...")
+        system = PostureAnalysisSystem(mode=AnalysisMode.GPU_ACCELERATED)
+        system.run()
+    except ImportError as e:
+        print(f"❌ Could not import unified system: {e}")
+        print("⚠️ Please ensure all dependencies are installed")
+        import sys
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()
