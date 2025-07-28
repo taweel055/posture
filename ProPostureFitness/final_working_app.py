@@ -183,6 +183,10 @@ class FinalPostureApp:
         
         try:
             while self.running:
+                if self.camera is None:
+                    print("❌ Camera not initialized")
+                    break
+                    
                 ret, frame = self.camera.read()
                 
                 if not ret:
@@ -262,13 +266,16 @@ class FinalPostureApp:
         print("✅ ProPostureFitness session completed")
 
 def main():
-    """Main entry point"""
+    """Main function - now uses unified system"""
     try:
-        app = FinalPostureApp()
-        success = app.run()
-        sys.exit(0 if success else 1)
-    except Exception as e:
-        print(f"❌ Application failed to start: {e}")
+        from unified_posture_system import PostureAnalysisSystem, AnalysisMode
+        print("🔄 Using unified posture analysis system (Advanced Mode)...")
+        system = PostureAnalysisSystem(mode=AnalysisMode.ADVANCED)
+        system.run()
+    except ImportError as e:
+        print(f"❌ Could not import unified system: {e}")
+        print("⚠️ Please ensure all dependencies are installed")
+        import sys
         sys.exit(1)
 
 if __name__ == "__main__":

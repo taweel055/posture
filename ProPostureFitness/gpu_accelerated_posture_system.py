@@ -9,7 +9,7 @@ import sys
 import cv2
 import numpy as np
 import time
-from typing import Dict, List, Tuple, Optional
+from typing import Dict, List, Tuple, Optional, Any
 from dataclasses import dataclass
 import threading
 import queue
@@ -108,7 +108,10 @@ class GPUDeviceManager:
             self.gpu_available = True
             
         else:
-            self.device = torch.device('cpu')
+            if PYTORCH_AVAILABLE:
+                self.device = torch.device('cpu')
+            else:
+                self.device = 'cpu'
             print("⚠️ No GPU acceleration available - using CPU")
         
         # Check OpenCV GPU support
@@ -172,7 +175,7 @@ class GPUAcceleratedMediaPipe:
             print(f"❌ MediaPipe setup failed: {e}")
             self.pose = None
     
-    def process_frame_gpu(self, frame: np.ndarray) -> Tuple[Optional[object], float]:
+    def process_frame_gpu(self, frame: np.ndarray) -> Tuple[Optional[Any], float]:
         """Process frame with GPU-accelerated MediaPipe"""
         
         if not self.pose:
@@ -414,7 +417,10 @@ class GPUAcceleratedPostureSystem:
         pose_results, inference_time = self.mediapipe_gpu.process_frame_gpu(preprocessed_frame)
         
         # 3. GPU-accelerated posture calculations
-        if pose_results and pose_results.pose_landmarks:
+        if (pose_results and 
+            hasattr(pose_results, 'pose_landmarks') and 
+            pose_results.pose_landmarks and
+            hasattr(pose_results.pose_landmarks, 'landmark')):
             landmarks = [
                 (lm.x, lm.y, lm.z) for lm in pose_results.pose_landmarks.landmark
             ]
@@ -422,7 +428,9 @@ class GPUAcceleratedPostureSystem:
             
             # Draw pose on frame
             annotated_frame = frame.copy()
-            if self.mediapipe_gpu.mp_drawing:
+            if (self.mediapipe_gpu.mp_drawing and 
+                self.mediapipe_gpu.mp_pose and 
+                hasattr(self.mediapipe_gpu.mp_pose, 'POSE_CONNECTIONS')):
                 self.mediapipe_gpu.mp_drawing.draw_landmarks(
                     annotated_frame,
                     pose_results.pose_landmarks,
@@ -519,6 +527,10 @@ class GPUAcceleratedPostureSystem:
 
         try:
             while True:
+                if cap is None:
+                    print("❌ Camera not initialized")
+                    break
+                    
                 ret, frame = cap.read()
                 if not ret:
                     break
@@ -598,22 +610,17 @@ class GPUAcceleratedPostureSystem:
 
 
 def main():
-    """Main function to run GPU-accelerated posture analysis"""
-    
+    """Main function - now uses unified system"""
     try:
-        # Initialize GPU-accelerated system
-        gpu_system = GPUAcceleratedPostureSystem()
-        
-        # Run real-time analysis
-        gpu_system.run_realtime_analysis()
-        
-    except KeyboardInterrupt:
-        print("\n🛑 Analysis stopped by user")
-    except Exception as e:
-        print(f"❌ Error: {e}")
-        import traceback
-        traceback.print_exc()
-
+        from unified_posture_system import PostureAnalysisSystem, AnalysisMode
+        print("🔄 Using unified posture analysis system (GPU Mode)...")
+        system = PostureAnalysisSystem(mode=AnalysisMode.GPU_ACCELERATED)
+        system.run()
+    except ImportError as e:
+        print(f"❌ Could not import unified system: {e}")
+        print("⚠️ Please ensure all dependencies are installed")
+        import sys
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()
