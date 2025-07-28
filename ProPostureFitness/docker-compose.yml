@@ -1,0 +1,128 @@
+version: '3.8'
+
+services:
+  fitlifeposture:
+    image: fitlifeposture:latest
+    container_name: fitlifeposture_app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    
+    # Environment variables
+    environment:
+      - DISPLAY=${DISPLAY:-:0}
+      - QT_X11_NO_MITSHM=1
+      - PYTHONUNBUFFERED=1
+      # Camera selection (0 = default camera)
+      - CAMERA_INDEX=0
+      # Interface mode: 'gui' or 'web'
+      - INTERFACE_MODE=gui
+    
+    # Ports (for web interface)
+    ports:
+      - "8080:8080"
+    
+    # Volumes
+    volumes:
+      # X11 socket for GUI
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      # Camera devices
+      - /dev/video0:/dev/video0
+      - /dev/video1:/dev/video1
+      # Persist reports and data
+      - ./reports:/app/reports
+      - ./data:/app/data
+      - ./logs:/app/logs
+      # Optional: Share models if pre-trained
+      # - ./models:/app/models
+    
+    # Device access
+    devices:
+      - /dev/video0:/dev/video0
+      # Add more cameras if needed
+      # - /dev/video1:/dev/video1
+      # - /dev/video2:/dev/video2
+    
+    # Network mode for X11
+    network_mode: host
+    
+    # Security options
+    security_opt:
+      - apparmor:unconfined
+    
+    # Capabilities for camera access
+    cap_add:
+      - SYS_ADMIN
+    
+    # Interactive terminal
+    stdin_open: true
+    tty: true
+    
+    # Restart policy
+    restart: unless-stopped
+
+  # Optional: GPU-enabled version (NVIDIA)
+  fitlifeposture-gpu:
+    image: fitlifeposture:gpu
+    container_name: fitlifeposture_gpu_app
+    build:
+      context: .
+      dockerfile: Dockerfile.gpu
+    runtime: nvidia
+    environment:
+      - DISPLAY=${DISPLAY:-:0}
+      - QT_X11_NO_MITSHM=1
+      - PYTHONUNBUFFERED=1
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility,video
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /dev/video0:/dev/video0
+      - ./reports:/app/reports
+      - ./data:/app/data
+      - ./logs:/app/logs
+    devices:
+      - /dev/video0:/dev/video0
+    network_mode: host
+    security_opt:
+      - apparmor:unconfined
+    cap_add:
+      - SYS_ADMIN
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+    profiles:
+      - gpu
+
+  # Web-only version (no X11 required)
+  fitlifeposture-web:
+    image: fitlifeposture:latest
+    container_name: fitlifeposture_web
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - PYTHONUNBUFFERED=1
+      - INTERFACE_MODE=web
+      - CAMERA_INDEX=0
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./reports:/app/reports
+      - ./data:/app/data
+      - ./logs:/app/logs
+    devices:
+      - /dev/video0:/dev/video0
+    security_opt:
+      - apparmor:unconfined
+    cap_add:
+      - SYS_ADMIN
+    restart: unless-stopped
+    profiles:
+      - web
+
+# Volumes for persistent data
+volumes:
+  reports:
+  data:
+  logs:

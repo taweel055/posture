@@ -1,0 +1,61 @@
+# ProPostureFitness v5.0 Requirements
+# Core dependencies for posture analysis system
+
+# Computer Vision & Image Processing
+opencv-python>=4.8.0
+opencv-contrib-python>=4.8.0
+Pillow>=10.0.0
+
+# Pose Detection & Analysis
+mediapipe>=0.10.0
+
+# Numerical Computing
+numpy>=1.24.0
+scipy>=1.11.0
+
+# Data Processing
+pandas>=2.0.0
+
+# Visualization (for development/debugging)
+matplotlib>=3.7.0
+
+# Web/Report Generation
+weasyprint>=60.0  # For PDF generation
+jinja2>=3.1.0     # For HTML templating
+
+# JSON handling
+jsonschema>=4.17.0
+
+# Date/Time handling
+python-dateutil>=2.8.0
+
+# System & Utilities
+psutil>=5.9.0     # System monitoring
+requests>=2.31.0  # HTTP requests
+
+# Testing
+pytest>=7.4.0
+pytest-cov>=4.1.0
+pytest-mock>=3.11.0
+
+# Optional GPU Acceleration (install separately if needed)
+# Uncomment based on your system:
+# torch>=2.0.0  # For PyTorch GPU acceleration
+# torchvision>=0.15.0
+# cupy>=12.0.0  # For CUDA array operations
+# tensorrt>=8.6.0  # For TensorRT optimization
+
+# Platform-specific requirements
+# macOS specific
+pyobjc-core>=9.0; sys_platform == 'darwin'
+pyobjc-framework-Cocoa>=9.0; sys_platform == 'darwin'
+pyobjc-framework-AVFoundation>=9.0; sys_platform == 'darwin'
+
+# Web interface (optional)
+Flask>=2.3.0      # Web framework
+Flask-CORS>=4.0.0 # CORS support
+
+# Development tools (optional)
+black>=23.0.0     # Code formatting
+flake8>=6.0.0     # Linting
+mypy>=1.4.0       # Type checking
